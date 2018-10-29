@@ -52,9 +52,9 @@ for route_id, route_name in ROUTES:
     distance_by_grade = points.groupby('grade interval')['distance delta'].sum()
 
     distance_by_grade.plot.bar()
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Distance by Grade.png'))
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Distance by Grade.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
     points.plot('distance', 'grade')
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Grade by Point.png'))
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Grade by Point.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
