@@ -23,10 +23,12 @@ GRADE_INTERVAL_BOUNDARIES = (
      0, .02, .04, .06, .08, .1, .15, .2, float('inf')
 )
 GRAPHS_DIRECTORY_NAME = 'graphs'
+DATA_DIRECTORY_NAME = 'data'
 
 matplotlib.use('TkAgg')
 
 graphs_directory_path = os.path.join(os.path.dirname(__file__), GRAPHS_DIRECTORY_NAME)
+data_directory_path = os.path.join(os.path.dirname(__file__), DATA_DIRECTORY_NAME)
 
 try:
     shutil.rmtree(graphs_directory_path)
@@ -34,6 +36,13 @@ except FileNotFoundError:
     pass
 
 os.mkdir(graphs_directory_path)
+
+try:
+    shutil.rmtree(data_directory_path)
+except FileNotFoundError:
+    pass
+
+os.mkdir(data_directory_path)
 
 distance_by_grades = []
 for route_id, route_name in ROUTES:
@@ -59,17 +68,21 @@ for route_id, route_name in ROUTES:
     distance_by_grade = points.groupby('grade interval')['distance delta (meters)'].sum().to_frame('distance (meters)')
     distance_by_grades.append(distance_by_grade.rename(columns={'distance (meters)': f'{route_name} distance (meters)'}))
 
-    plot_title = f'{route_name} - Distance by Grade'
-    distance_by_grade.plot.bar(title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
+    title = f'{route_name} - Distance by Grade'
+    distance_by_grade.to_csv(os.path.join(data_directory_path, f'{title}.csv'))
+    distance_by_grade.plot.bar(title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
-    plot_title = f'{route_name} - Grade by Distance'
-    points.plot('distance (meters)', 'grade', title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
+    title = f'{route_name} - Grade by Distance'
+    points.to_csv(os.path.join(data_directory_path, f'{title}.csv'), index=False)
+    points.plot('distance (meters)', 'grade', title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
-plot_title = 'Distance by Grade'
-pandas.concat(distance_by_grades, axis=1).plot.bar(title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
-matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
+title = 'Distance by Grade'
+distance_by_grades = pandas.concat(distance_by_grades, axis=1)
+distance_by_grades.to_csv(os.path.join(data_directory_path, f'{title}.csv'))
+distance_by_grades.plot.bar(title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
+matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
 matplotlib.pyplot.clf()
