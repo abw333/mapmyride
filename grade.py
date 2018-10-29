@@ -34,27 +34,29 @@ for route_id, route_name in ROUTES:
 
     points = pandas.read_csv(io.StringIO(route_csv)) \
         [['Distance from start(meters)', 'elevation(meters)']] \
-        .rename(columns={'Distance from start(meters)': 'distance', 'elevation(meters)': 'elevation'}) \
-        .drop_duplicates('distance') \
+        .rename(columns={'Distance from start(meters)': 'distance (meters)', 'elevation(meters)': 'elevation (meters)'}) \
+        .drop_duplicates('distance (meters)') \
         .reset_index(drop=True)
 
-    points = points[(points['distance'] == 0) | (points['distance'].diff() >= MINIMUM_DISTANCE_DELTA)] \
+    points = points[(points['distance (meters)'] == 0) | (points['distance (meters)'].diff() >= MINIMUM_DISTANCE_DELTA)] \
         .reset_index(drop=True)
 
-    deltas = points.diff().rename(columns={'distance': 'distance delta', 'elevation': 'elevation delta'})
+    deltas = points.diff().rename(columns={'distance (meters)': 'distance delta (meters)', 'elevation (meters)': 'elevation delta (meters)'})
 
     points = pandas.concat([points, deltas], axis=1)
 
-    points['grade'] = points['elevation delta'] / points['distance delta']
+    points['grade'] = points['elevation delta (meters)'] / points['distance delta (meters)']
 
     points['grade interval'] = pandas.cut(points['grade'], GRADE_INTERVAL_BOUNDARIES)
 
-    distance_by_grade = points.groupby('grade interval')['distance delta'].sum()
+    distance_by_grade = points.groupby('grade interval')['distance delta (meters)'].sum().to_frame('distance (meters)')
 
-    distance_by_grade.plot.bar()
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Distance by Grade.png'), bbox_inches='tight')
+    plot_title = f'{route_name} - Distance by Grade'
+    distance_by_grade.plot.bar(title=plot_title)
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
-    points.plot('distance', 'grade')
-    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{route_name} - Grade by Point.png'), bbox_inches='tight')
+    plot_title = f'{route_name} - Grade by Distance'
+    points.plot('distance (meters)', 'grade', title=plot_title)
+    matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
