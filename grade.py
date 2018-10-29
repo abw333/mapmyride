@@ -7,6 +7,7 @@ import shutil
 
 ROUTES = (
     (2292646141, 'Cubuy A, B 20181027'),
+    (2299872130, 'Paloma A, B 20181103'),
     (2238053443, 'Cerro Punta Elite 20181208')
 )
 
