@@ -29,6 +29,7 @@ except FileNotFoundError:
 
 os.mkdir(graphs_directory_path)
 
+distance_by_grades = []
 for route_id, route_name in ROUTES:
     route_csv = requests.get(f'https://www.mapmyride.com/routes/{route_id}.csv').text
 
@@ -50,6 +51,7 @@ for route_id, route_name in ROUTES:
     points['grade interval'] = pandas.cut(points['grade'], GRADE_INTERVAL_BOUNDARIES)
 
     distance_by_grade = points.groupby('grade interval')['distance delta (meters)'].sum().to_frame('distance (meters)')
+    distance_by_grades.append(distance_by_grade.rename(columns={'distance (meters)': f'{route_name} distance (meters)'}))
 
     plot_title = f'{route_name} - Distance by Grade'
     distance_by_grade.plot.bar(title=plot_title)
@@ -60,3 +62,8 @@ for route_id, route_name in ROUTES:
     points.plot('distance (meters)', 'grade', title=plot_title)
     matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
+
+plot_title = 'Distance by Grade'
+pandas.concat(distance_by_grades, axis=1).plot.bar(title=plot_title)
+matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
+matplotlib.pyplot.clf()
