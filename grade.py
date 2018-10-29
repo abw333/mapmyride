@@ -6,9 +6,15 @@ import requests
 import shutil
 
 ROUTES = (
+    (2232377818, 'Corozal A, B 20180908'),
+    (2112697084, 'Campamento A, B 20180915'),
+    (2248058941, 'Regadera A, B 20180922'),
+    (2256532609, '3T A, B 20180929'),
+    (2263083622, 'Charco Azul A, B 20181006'),
+    (2273520217, 'Cascada Espiritu Santo A, B 20181013'),
+    (2283542419, 'La Casita del Negro A, B 20181020'),
     (2292646141, 'Cubuy A, B 20181027'),
-    (2299872130, 'Paloma A, B 20181103'),
-    (2238053443, 'Cerro Punta Elite 20181208')
+    (2299872130, 'Paloma A, B 20181103')
 )
 
 MINIMUM_DISTANCE_DELTA = 100
