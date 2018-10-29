@@ -19,8 +19,8 @@ ROUTES = (
 
 MINIMUM_DISTANCE_DELTA = 100
 GRADE_INTERVAL_BOUNDARIES = (
-    -float('inf'), -.5, -.4, -.3, -.2, -.15, -.1, -.08, -.06, -.04, -.02,
-     0, .02, .04, .06, .08, .1, .15, .2, .3, .4, .5, float('inf')
+    -float('inf'), -.2, -.15, -.1, -.08, -.06, -.04, -.02,
+     0, .02, .04, .06, .08, .1, .15, .2, float('inf')
 )
 GRAPHS_DIRECTORY_NAME = 'graphs'
 
@@ -60,16 +60,16 @@ for route_id, route_name in ROUTES:
     distance_by_grades.append(distance_by_grade.rename(columns={'distance (meters)': f'{route_name} distance (meters)'}))
 
     plot_title = f'{route_name} - Distance by Grade'
-    distance_by_grade.plot.bar(title=plot_title)
+    distance_by_grade.plot.bar(title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
     matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
     plot_title = f'{route_name} - Grade by Distance'
-    points.plot('distance (meters)', 'grade', title=plot_title)
+    points.plot('distance (meters)', 'grade', title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
     matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
     matplotlib.pyplot.clf()
 
 plot_title = 'Distance by Grade'
-pandas.concat(distance_by_grades, axis=1).plot.bar(title=plot_title)
+pandas.concat(distance_by_grades, axis=1).plot.bar(title=plot_title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
 matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{plot_title}.png'), bbox_inches='tight')
 matplotlib.pyplot.clf()
