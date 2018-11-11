@@ -74,17 +74,17 @@ for route_id, route_name in ROUTES:
     distance_by_grade.to_csv(os.path.join(data_directory_path, f'{title}.csv'))
     distance_by_grade.plot.bar(title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
     matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
-    matplotlib.pyplot.clf()
+    matplotlib.pyplot.close()
 
     title = f'{route_name} - Grade by Distance'
     points.to_csv(os.path.join(data_directory_path, f'{title}.csv'), index=False)
     points.plot('distance (meters)', 'grade', title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
     matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
-    matplotlib.pyplot.clf()
+    matplotlib.pyplot.close()
 
 title = 'Distance by Grade'
 distance_by_grades = pandas.concat(distance_by_grades, axis=1)
 distance_by_grades.to_csv(os.path.join(data_directory_path, f'{title}.csv'))
 distance_by_grades.plot.bar(title=title, figsize=[2 * size for size in matplotlib.rcParams['figure.figsize']])
 matplotlib.pyplot.savefig(os.path.join(graphs_directory_path, f'{title}.png'), bbox_inches='tight')
-matplotlib.pyplot.clf()
+matplotlib.pyplot.close()
