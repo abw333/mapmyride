@@ -14,7 +14,9 @@ ROUTES = (
     (2273520217, 'Cascada Espiritu Santo A, B 20181013'),
     (2283542419, 'La Casita del Negro A, B 20181020'),
     (2292646141, 'Cubuy A, B 20181027'),
-    (2299872130, 'Paloma A, B 20181103')
+    (2299872130, 'Paloma A, B 20181103'),
+    (2308484278, 'El Yunque A, B 20181110'),
+    (2314621525, 'Aguas Buenas A, B 20181117')
 )
 
 MINIMUM_DISTANCE_DELTA = 100
