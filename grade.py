@@ -18,7 +18,10 @@ ROUTES = (
     (2308484278, 'El Yunque A, B 20181110'),
     (2314621525, 'Aguas Buenas A, B 20181117'),
     (2321658076, 'Juncos Las 400 A, B 20181124'),
-    (2326783177, 'Corozal-Vega Baja A, B 20181201')
+    (2326783177, 'Corozal-Vega Baja A, B 20181201'),
+    (2269596451, 'Cerro Punta B 20181208'),
+    (2238026413, 'Cerro Punta A 20181208'),
+    (2238053443, 'Cerro Punta Elite 20181208')
 )
 
 MINIMUM_DISTANCE_DELTA = 100
